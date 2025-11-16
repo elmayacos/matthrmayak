@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Zmiana: Domyślny lang zostanie ustawiony przez JS -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -115,6 +116,37 @@
             text-decoration: none;
         }
 
+        /* --- NOWY STYL: Przełącznik języków --- */
+        .lang-switcher {
+            display: flex;
+            gap: 8px;
+            margin-left: 20px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--body-text);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            background: var(--light-grey-bg);
+            color: var(--primary-blue);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-color: var(--primary-blue);
+        }
+        /* --- Koniec stylu przełącznika --- */
+
+
         /* --- Hero Section --- */
         #hero {
             background-color: var(--white);
@@ -200,9 +232,55 @@
             color: var(--primary-blue);
         }
 
+        /* --- Nowa sekcja: Cultural Fit Demo --- */
+        #culture-fit {
+            background-color: var(--white);
+        }
+
+        .culture-demo-box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .culture-demo-box p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        #questions-result {
+            display: none;
+            text-align: left;
+            background-color: var(--light-grey-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        #questions-result h4 {
+            margin-top: 0;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        
+        /* Używamy <pre> dla zachowania formatowania z API */
+        #questions-result pre {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--body-text);
+            white-space: pre-wrap; /* Zawijanie tekstu */
+            margin: 0;
+        }
+
         /* --- Process Section --- */
         #process {
-            background-color: var(--white);
+            background-color: var(--light-grey-bg);
         }
 
         .process-steps {
@@ -305,6 +383,55 @@
             font-size: 1.1rem;
         }
 
+        /* --- Gemini Feature Styles --- */
+        .gemini-btn {
+            background-color: transparent;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .gemini-btn:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .gemini-btn:disabled {
+            background-color: var(--border-color);
+            color: var(--body-text);
+            border-color: var(--border-color);
+            cursor: not-allowed;
+        }
+
+        .loading-spinner {
+            display: none; /* Ukryty domyślnie */
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(10, 75, 142, 0.3);
+            border-top-color: var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s ease-in-out infinite;
+            margin: 10px auto 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .gemini-error {
+            display: none;
+            font-size: 0.9rem;
+            color: #d9534f;
+            text-align: left;
+            margin-top: 10px;
+        }
+
         /* --- Footer --- */
         .footer {
             padding: 30px 0;
@@ -362,6 +489,24 @@
                 flex-direction: column;
                 gap: 10px;
             }
+
+            /* Poprawka dla mobilnego nagłówka */
+            .header .container {
+                flex-direction: row; /* Wracamy do rzędu */
+                justify-content: space-between;
+            }
+            .logo {
+                font-size: 1.3rem;
+            }
+            .lang-switcher {
+                margin-left: 5px;
+                gap: 5px;
+            }
+            .lang-btn {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
+            /* Koniec poprawki */
             
             .contact-form {
                 padding: 25px;
@@ -374,9 +519,17 @@
     <!-- 1. HEADER -->
     <header class="header">
         <div class="container">
-            <a href="#" class="logo">Matt Majak</a>
+            <div style="display: flex; align-items: center;">
+                <a href="#" class="logo">Matt Majak</a>
+                <!-- NOWY ELEMENT: Przełącznik języków -->
+                <div class="lang-switcher">
+                    <button id="lang-en" class="lang-btn" data-lang="en">EN</button>
+                    <button id="lang-nl" class="lang-btn" data-lang="nl">NL</button>
+                    <button id="lang-pl" class="lang-btn" data-lang="pl">PL</button>
+                </div>
+            </div>
             <nav>
-                <a href="#contact" class="cta-button">Find Me a Candidate</a>
+                <a href="#contact" class="cta-button" data-key="ctaButton">Find Me a Candidate</a>
             </nav>
         </div>
     </header>
@@ -385,16 +538,16 @@
         <!-- 1. HERO SECTION -->
         <section id="hero">
             <div class="container">
-                <h1>Stop the Revolving Door. <br>I Deliver Vetted Professionals, Not Just CVs.</h1>
-                <p class="subheadline">Connecting Dutch Business with Top-Tier Polish Talent using Psychological Profiling.</p>
-                <a href="#contact" class="cta-button">Find Me a Candidate</a>
+                <h1 data-key="heroTitle">Stop the Revolving Door. <br>I Deliver Vetted Professionals, Not Just CVs.</h1>
+                <p class="subheadline" data-key="heroSubtitle">Connecting Dutch Business with Top-Tier Polish Talent using Psychological Profiling.</p>
+                <a href="#contact" class="cta-button" data-key="ctaButton2">Find Me a Candidate</a>
             </div>
         </section>
 
-        <!-- 5. EXPERIENCE BAR (TRUST) - Umieszczone wysoko dla budowania zaufania -->
+        <!-- 5. EXPERIENCE BAR (TRUST) -->
         <section id="trust">
             <div class="container">
-                <span>MANAGEMENT EXPERIENCE AT</span>
+                <span data-key="trustBar">MANAGEMENT EXPERIENCE AT</span>
                 <span>T-Mobile</span>
                 <span>Polenergia</span>
                 <span>Liberty Poland</span>
@@ -404,19 +557,19 @@
         <!-- 2. THE PROBLEM (PAIN POINTS) -->
         <section id="problem">
             <div class="container">
-                <h2>Tired of This?</h2>
+                <h2 data-key="problemTitle">Tired of This?</h2>
                 <div class="problem-grid">
                     <div class="problem-card">
-                        <h3>The "Ghost" Worker</h3>
-                        <p>You invest time and money into a new hire, only for them to disappear after the first week or paycheck. Your project is delayed, and you're back to square one.</p>
+                        <h3 data-key="problem1Title">The "Ghost" Worker</h3>
+                        <p data-key="problem1Text">You invest time and money into a new hire, only for them to disappear after the first week or paycheck. Your project is delayed, and you're back to square one.</p>
                     </div>
                     <div class="problem-card">
-                        <h3>Motivation Mismatch</h3>
-                        <p>They look good on paper, but their on-site motivation is low. Communication is poor, they do the bare minimum, and they drag down the morale of your core team.</p>
+                        <h3 data-key="problem2Title">Motivation Mismatch</h3>
+                        <p data-key="problem2Text">They look good on paper, but their on-site motivation is low. Communication is poor, they do the bare minimum, and they drag down the morale of your core team.</p>
                     </div>
                     <div class="problem-card">
-                        <h3>Agency CV Spam</h3>
-                        <p>Most agencies just flood your inbox with unvetted CVs, making *you* do the screening. You waste hours on interviews with candidates who were never the right fit.</p>
+                        <h3 data-key="problem3Title">Agency CV Spam</h3>
+                        <p data-key="problem3Text">Most agencies just flood your inbox with unvetted CVs, making *you* do the screening. You waste hours on interviews with candidates who were never the right fit.</p>
                     </div>
                 </div>
             </div>
@@ -425,47 +578,74 @@
         <!-- 3. THE MATT MAJAK DIFFERENCE (WHY ME?) -->
         <section id="difference">
             <div class="container">
-                <h2>The Matt Majak Difference</h2>
+                <h2 data-key="diffTitle">The Matt Majak Difference</h2>
                 <div class="difference-grid">
                     <div class="difference-card">
-                        <!-- Użyjmy prostych emoji jako ikon -->
                         <div class="icon">📡</div> 
-                        <h3>The 100-Person Stress Test</h3>
-                        <p>Having managed 100+ person teams in Poland, I’ve seen every excuse and trick. I have a manager's "radar" for spotting unreliable candidates before they ever get to you.</p>
+                        <h3 data-key="diff1Title">The 100-Person Stress Test</h3>
+                        <p data-key="diff1Text">Having managed 100+ person teams in Poland, I’ve seen every excuse and trick. I have a manager's "radar" for spotting unreliable candidates before they ever get to you.</p>
                     </div>
                     <div class="difference-card">
                         <div class="icon">🧠</div>
-                        <h3>NLP & DISC Screening</h3>
-                        <p>Skills are only half the story. I use DISC/Persolog profiling and NLP techniques to verify mentality, motivation, and reliability. I check if they fit *your* company culture, not just the job.</p>
+                        <h3 data-key="diff2Title">NLP & DISC Screening</h3>
+                        <p data-key="diff2Text">Skills are only half the story. I use DISC/Persolog profiling and NLP techniques to verify mentality, motivation, and reliability. I check if they fit *your* company culture, not just the job.</p>
                     </div>
                     <div class="difference-card">
                         <div class="icon">🇳🇱</div>
-                        <h3>Local Dutch Presence</h3>
-                        <p>I'm not a remote agency. I am in the Netherlands, available to meet for coffee, understand your exact needs, and build a long-term partnership based on results.</p>
+                        <h3 data-key="diff3Title">Local Dutch Presence</h3>
+                        <p data-key="diff3Text">I'm not a remote agency. I am in the Netherlands, available to meet for coffee, understand your exact needs, and build a long-term partnership based on results.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- KULTURA SEKCJA (Cultural Fit Demo) -->
+        <section id="culture-fit">
+            <div class="container">
+                <h2 data-key="cultureTitle">See The Difference: Cultural Fit Demo</h2>
+                <div class="culture-demo-box">
+                    <p data-key="cultureSub">My NLP & DISC screening goes beyond skills. Enter 1-3 company values (e.g., "Reliability, Proactivity, Teamwork") to see the kind of behavioral questions I use to find the perfect cultural fit.</p>
+                    
+                    <div class="form-group">
+                        <label for="company-values" style="text-align: left;" data-key="cultureLabel">Your Company Values</label>
+                        <textarea id="company-values" name="company-values" data-key-placeholder="culturePlaceholder" placeholder="e.g., Reliability, Proactivity, Teamwork" style="min-height: 80px;"></textarea>
+                    </div>
+                    
+                    <button type="button" class="gemini-btn" id="gemini-questions-btn" data-key="cultureButton">
+                        ✨ Generate Screening Questions
+                    </button>
+                    
+                    <div class="loading-spinner" id="questions-loading"></div>
+                    <div class="gemini-error" id="questions-error"></div>
+                    
+                    <div id="questions-result">
+                        <h4 data-key="cultureResultTitle">Example Screening Questions:</h4>
+                        <pre id="questions-output"></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <!-- 4. HOW IT WORKS (PROCESS) -->
         <section id="process">
             <div class="container">
-                <h2>My 3-Step Vetting Process</h2>
+                <h2 data-key="processTitle">My 3-Step Vetting Process</h2>
                 <div class="process-steps">
                     <div class="step-card">
                         <div class="step-number">1</div>
-                        <h3>Consultation & Briefing</h3>
-                        <p>We meet (in-person or online) to define the exact profile you need—not just the skills, but the non-negotiable mentality and work ethic.</p>
+                        <h3 data-key="process1Title">Consultation & Briefing</h3>
+                        <p data-key="process1Text">We meet (in-person or online) to define the exact profile you need—not just the skills, but the non-negotiable mentality and work ethic.</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">2</div>
-                        <h3>Deep Screening</h3>
-                        <p>I source, interview, and conduct psychometric checks. I filter out the "CV-perfect" candidates from the "job-perfect" professionals.</p>
+                        <h3 data-key="process2Title">Deep Screening</h3>
+                        <p data-key="process2Text">I source, interview, and conduct psychometric checks. I filter out the "CV-perfect" candidates from the "job-perfect" professionals.</p>
                     </div>
                     <div class="step-card">
                         <div class="step-number">3</div>
-                        <h3>The Perfect Match</h3>
-                        <p>You don't get a stack of CVs. You get a shortlist of 2-3 fully vetted candidates who are ready to work and add value from day one.</p>
+                        <h3 data-key="process3Title">The Perfect Match</h3>
+                        <p data-key="process3Text">You don't get a stack of CVs. You get a shortlist of 2-3 fully vetted candidates who are ready to work and add value from day one.</p>
                     </div>
                 </div>
             </div>
@@ -474,32 +654,41 @@
         <!-- 6. CONTACT / FOOTER -->
         <section id="contact">
             <div class="container">
-                <h2>Ready to Hire with Confidence?</h2>
-                <p>Stop sorting. Start building.</p>
+                <h2 data-key="contactTitle">Ready to Hire with Confidence?</h2>
+                <p data-key="contactSub">Stop sorting. Start building.</p>
                 
                 <div class="contact-form">
                     <form action="https://api.web3forms.com/submit" method="POST">
-                        <!-- Zastąp swoim kluczem web3forms lub innym backendem -->
                         <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE"> 
                         
                         <div class="form-group">
-                            <label for="name">Your Name</label>
+                            <label for="name" data-key="contactName">Your Name</label>
                             <input type="text" id="name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="company">Company Name</label>
+                            <label for="company" data-key="contactCompany">Company Name</label>
                             <input type="text" id="company" name="company">
                         </div>
                         <div class="form-group">
-                            <label for="email">Your Email</label>
+                            <label for="email" data-key="contactEmail">Your Email</label>
                             <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="message">What kind of talent do you need?</label>
-                            <textarea id="message" name="message" required></textarea>
+                            <label for="message" data-key="contactLabel">What kind of talent do you need?</label>
+                            <textarea id="message" name="message" required data-key-placeholder="contactPlaceholder" placeholder="e.g., 'A reliable construction foreman for a long-term project'"></textarea>
+                            <div id="gemini-error" class="gemini-error"></div>
                         </div>
+
+                        <div class="form-group" style="text-align: right; margin-top: -15px;">
+                            <button type="button" class="gemini-btn" id="gemini-enhance-btn" data-key="contactGeminiButton">
+                                ✨ Help Me Define the Role
+                            </button>
+                        </div>
+                        
+                        <div class="loading-spinner" id="loading-indicator"></div>
+
                         <div class="form-group">
-                            <button type="submit" class="cta-button">Book a Consultation</button>
+                            <button type="submit" class="cta-button" data-key="contactSubmitButton">Book a Consultation</button>
                         </div>
                     </form>
                 </div>
@@ -511,10 +700,354 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Matt Majak Recruitment. All rights reserved.</p>
+            <p data-key="footerText">&copy; 2025 Matt Majak Recruitment. All rights reserved.</p>
             <p><a href="mailto:contact@mattmajak.com">contact@mattmajak.com</a></p>
         </div>
     </footer>
+
+    <!-- Skrypt Gemini API & Tłumaczeń -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. SELEKTORY ELEMENTÓW ---
+            const enhanceBtn = document.getElementById('gemini-enhance-btn');
+            const messageTextarea = document.getElementById('message');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const geminiError = document.getElementById('gemini-error');
+
+            const questionsBtn = document.getElementById('gemini-questions-btn');
+            const valuesTextarea = document.getElementById('company-values');
+            const questionsLoading = document.getElementById('questions-loading');
+            const questionsError = document.getElementById('questions-error');
+            const questionsResult = document.getElementById('questions-result');
+            const questionsOutput = document.getElementById('questions-output');
+
+            const langButtons = document.querySelectorAll('.lang-btn');
+
+            // --- 2. ZAWARTOŚĆ WIELOJĘZYCZNA ---
+            let currentLang = 'en'; // Domyślny
+            const content = {
+                'en': {
+                    heroTitle: "Stop the Revolving Door. <br>I Deliver Vetted Professionals, Not Just CVs.",
+                    heroSubtitle: "Connecting Dutch Business with Top-Tier Polish Talent using Psychological Profiling.",
+                    ctaButton: "Find Me a Candidate",
+                    ctaButton2: "Find Me a Candidate",
+                    trustBar: "MANAGEMENT EXPERIENCE AT",
+                    problemTitle: "Tired of This?",
+                    problem1Title: "The 'Ghost' Worker",
+                    problem1Text: "You invest time and money into a new hire, only for them to disappear after the first week or paycheck. Your project is delayed, and you're back to square one.",
+                    problem2Title: "Motivation Mismatch",
+                    problem2Text: "They look good on paper, but their on-site motivation is low. Communication is poor, they do the bare minimum, and they drag down the morale of your core team.",
+                    problem3Title: "Agency CV Spam",
+                    problem3Text: "Most agencies just flood your inbox with unvetted CVs, making *you* do the screening. You waste hours on interviews with candidates who were never the right fit.",
+                    diffTitle: "The Matt Majak Difference",
+                    diff1Title: "The 100-Person Stress Test",
+                    diff1Text: "Having managed 100+ person teams in Poland, I’ve seen every excuse and trick. I have a manager's 'radar' for spotting unreliable candidates before they ever get to you.",
+                    diff2Title: "NLP & DISC Screening",
+                    diff2Text: "Skills are only half the story. I use DISC/Persolog profiling and NLP techniques to verify mentality, motivation, and reliability. I check if they fit *your* company culture, not just the job.",
+                    diff3Title: "Local Dutch Presence",
+                    diff3Text: "I'm not a remote agency. I am in the Netherlands, available to meet for coffee, understand your exact needs, and build a long-term partnership based on results.",
+                    cultureTitle: "See The Difference: Cultural Fit Demo",
+                    cultureSub: 'My NLP & DISC screening goes beyond skills. Enter 1-3 company values (e.g., "Reliability, Proactivity, Teamwork") to see the kind of behavioral questions I use to find the perfect cultural fit.',
+                    cultureLabel: "Your Company Values",
+                    culturePlaceholder: "e.g., Reliability, Proactivity, Teamwork",
+                    cultureButton: "✨ Generate Screening Questions",
+                    cultureResultTitle: "Example Screening Questions:",
+                    processTitle: "My 3-Step Vetting Process",
+                    process1Title: "Consultation & Briefing",
+                    process1Text: "We meet (in-person or online) to define the exact profile you need—not just the skills, but the non-negotiable mentality and work ethic.",
+                    process2Title: "Deep Screening",
+                    process2Text: "I source, interview, and conduct psychometric checks. I filter out the 'CV-perfect' candidates from the 'job-perfect' professionals.",
+                    process3Title: "The Perfect Match",
+                    process3Text: "You don't get a stack of CVs. You get a shortlist of 2-3 fully vetted candidates who are ready to work and add value from day one.",
+                    contactTitle: "Ready to Hire with Confidence?",
+                    contactSub: "Stop sorting. Start building.",
+                    contactName: "Your Name",
+                    contactCompany: "Company Name",
+                    contactEmail: "Your Email",
+                    contactLabel: "What kind of talent do you need?",
+                    contactPlaceholder: "e.g., 'A reliable construction foreman for a long-term project'",
+                    contactGeminiButton: "✨ Help Me Define the Role",
+                    contactSubmitButton: "Book a Consultation",
+                    footerText: "&copy; 2025 Matt Majak Recruitment. All rights reserved.",
+                    errorRole: "Please describe the role you need first.",
+                    errorValues: "Please enter at least one company value.",
+                    errorAPI: "Sorry, I couldn't process this request. Please try again or submit as-is."
+                },
+                'nl': {
+                    heroTitle: "Stop de Draaideur. <br>Ik Lever Gevette Professionals, Geen CV's.",
+                    heroSubtitle: "Verbindt Nederlandse bedrijven met Pools toptalent via psychologische profilering.",
+                    ctaButton: "Vind een Kandidaat",
+                    ctaButton2: "Vind een Kandidaat",
+                    trustBar: "MANAGEMENTERVARING BIJ",
+                    problemTitle: "Klaar Hiermee?",
+                    problem1Title: "De 'Spook' Werknemer",
+                    problem1Text: "U investeert tijd en geld in een nieuwe medewerker, maar deze verdwijnt na de eerste week of het eerste loon. Uw project loopt vertraging op en u bent terug bij af.",
+                    problem2Title: "Motivatie Mismatch",
+                    problem2Text: "Ze zien er goed uit op papier, maar hun motivatie op de werkvloer is laag. Communicatie is slecht, ze doen het absolute minimum en verlagen het moraal van uw kernteam.",
+                    problem3Title: "CV-Spam van Bureaus",
+                    problem3Text: "De meeste bureaus sturen u ongevraagde CV's, waardoor *u* de selectie moet doen. U verspilt uren aan sollicitatiegesprekken met kandidaten die nooit geschikt waren.",
+                    diffTitle: "Het Matt Majak Verschil",
+                    diff1Title: "De 100-Persoons Stresstest",
+                    diff1Text: "Ik heb teams van 100+ mensen in Polen geleid en heb elk excuus en elke truc gezien. Ik heb een 'radar' van een manager om onbetrouwbare kandidaten te herkennen voordat ze u bereiken.",
+                    diff2Title: "NLP & DISC Screening",
+                    diff2Text: "Vaardigheden zijn maar het halve verhaal. Ik gebruik DISC/Persolog-profilering en NLP-technieken om mentaliteit, motivatie en betrouwbaarheid te verifiëren. Ik controleer of ze passen bij *uw* bedrijfscultuur.",
+                    diff3Title: "Lokale Aanwezigheid",
+                    diff3Text: "Ik ben geen bureau op afstand. Ik ben in Nederland, beschikbaar voor een kop koffie om uw exacte behoeften te bespreken en een partnerschap op te bouwen.",
+                    cultureTitle: "Zie het Verschil: Cultural Fit Demo",
+                    cultureSub: "Mijn NLP & DISC screening gaat verder dan vaardigheden. Voer 1-3 bedrijfswaarden in (bijv. 'Betrouwbaarheid, Proactiviteit') om te zien welk soort gedragsvragen ik gebruik.",
+                    cultureLabel: "Uw Bedrijfswaarden",
+                    culturePlaceholder: "bijv. Betrouwbaarheid, Proactiviteit, Teamwork",
+                    cultureButton: "✨ Genereer Screeningsvragen",
+                    cultureResultTitle: "Voorbeeld Screeningsvragen:",
+                    processTitle: "Mijn 3-Staps Selectieproces",
+                    process1Title: "Consultatie & Briefing",
+                    process1Text: "We ontmoeten elkaar (persoonlijk of online) om het exacte profiel te definiëren dat u nodig heeft - niet alleen de vaardigheden, maar ook de mentaliteit en werkethiek.",
+                    process2Title: "Diepe Screening",
+                    process2Text: "Ik zoek, interview en voer psychometrische controles uit. Ik filter de 'CV-perfecte' kandidaten van de 'werk-perfecte' professionals.",
+                    process3Title: "De Perfecte Match",
+                    process3Text: "U krijgt geen stapel CV's. U krijgt een shortlist van 2-3 volledig doorgelichte kandidaten die klaar zijn om vanaf dag één waarde toe te voegen.",
+                    contactTitle: "Klaar om met Vertrouwen in te Huren?",
+                    contactSub: "Stop met sorteren. Begin met bouwen.",
+                    contactName: "Uw Naam",
+                    contactCompany: "Bedrijfsnaam",
+                    contactEmail: "Uw E-mail",
+                    contactLabel: "Wat voor talent heeft u nodig?",
+                    contactPlaceholder: "bijv. 'Een betrouwbare voorman voor een langdurig project'",
+                    contactGeminiButton: "✨ Help Mij de Rol te Definiëren",
+                    contactSubmitButton: "Plan een Consultatie",
+                    footerText: "&copy; 2025 Matt Majak Recruitment. Alle rechten voorbehouden.",
+                    errorRole: "Beschrijf alstublieft eerst de rol die u nodig heeft.",
+                    errorValues: "Voer alstublieft ten minste één bedrijfswaarde in.",
+                    errorAPI: "Sorry, ik kon dit verzoek niet verwerken. Probeer het opnieuw of verzend zo."
+                },
+                'pl': {
+                    heroTitle: "Zatrzymaj Karuzelę. <br>Dostarczam Sprawdzonych Ludzi, Nie Tylko CV.",
+                    heroSubtitle: "Łączę holenderski biznes z najlepszymi polskimi talentami, używając profili psychologicznych.",
+                    ctaButton: "Znajdź mi Kandydata",
+                    ctaButton2: "Znajdź mi Kandydata",
+                    trustBar: "DOŚWIADCZENIE MANAGERSKIE W",
+                    problemTitle: "Masz Tego Dość?",
+                    problem1Title: "Pracownik 'Duch'",
+                    problem1Text: "Inwestujesz czas i pieniądze w nowego pracownika, który znika po pierwszym tygodniu lub wypłacie. Twój projekt jest opóźniony, a Ty wracasz do punktu wyjścia.",
+                    problem2Title: "Niedopasowana Motywacja",
+                    problem2Text: "Na papierze wyglądają dobrze, ale na miejscu ich motywacja jest niska. Komunikacja jest słaba, robią minimum i obniżają morale Twojego zespołu.",
+                    problem3Title: "Spam CV z Agencji",
+                    problem3Text: "Większość agencji zalewa Twoją skrzynkę niezweryfikowanymi CV, zmuszając *Ciebie* do selekcji. Tracisz godziny na rozmowy z kandydatami, którzy nigdy nie pasowali.",
+                    diffTitle: "Różnica Matt Majak",
+                    diff1Title: "Test Stresowy 100 Osób",
+                    diff1Text: "Zarządzając w Polsce zespołami 100+, widziałem każdą wymówkę i sztuczkę. Mam 'radar' managera, który wykrywa nierzetelnych kandydatów, zanim do Ciebie trafią.",
+                    diff2Title: "Screening NLP i DISC",
+                    diff2Text: "Umiejętności to połowa sukcesu. Używam profili DISC/Persolog i technik NLP, aby zweryfikować mentalność, motywację i rzetelność. Sprawdzam, czy pasują do kultury *Twojej* firmy.",
+                    diff3Title: "Lokalna Obecność w Holandii",
+                    diff3Text: "Nie jestem zdalną agencją. Jestem na miejscu w Holandii, dostępny na spotkanie przy kawie, aby zrozumieć Twoje potrzeby i zbudować partnerstwo.",
+                    cultureTitle: "Zobacz Różnicę: Demo Dopasowania Kulturowego",
+                    cultureSub: "Mój screening NLP i DISC wykracza poza umiejętności. Wprowadź 1-3 wartości firmowe (np. 'Rzetelność, Proaktywność'), aby zobaczyć, jakich pytań behawioralnych używam.",
+                    cultureLabel: "Wartości Twojej Firmy",
+                    culturePlaceholder: "np. Rzetelność, Proaktywność, Praca zespołowa",
+                    cultureButton: "✨ Wygeneruj Pytania Screeningowe",
+                    cultureResultTitle: "Przykładowe Pytania Screeningowe:",
+                    processTitle: "Mój 3-Etopowy Proces Weryfikacji",
+                    process1Title: "Konsultacja i Briefing",
+                    process1Text: "Spotykamy się (osobiście lub online), aby zdefiniować profil, którego potrzebujesz – nie tylko umiejętności, ale także mentalność i etykę pracy.",
+                    process2Title: "Głęboki Screening",
+                    process2Text: "Wyszukuję, przeprowadzam wywiady i testy psychometryczne. Filtruję kandydatów 'idealnych na CV' od 'idealnych do pracy'.",
+                    process3Title: "Idealne Dopasowanie",
+                    process3Text: "Nie dostajesz stosu CV. Otrzymujesz krótką listę 2-3 w pełni zweryfikowanych kandydatów, gotowych do pracy i wnoszenia wartości od pierwszego dnia.",
+                    contactTitle: "Gotowy Zatrudniać z Pewnością?",
+                    contactSub: "Skończ z sortowaniem. Zacznij budować.",
+                    contactName: "Twoje Imię",
+                    contactCompany: "Nazwa Firmy",
+                    contactEmail: "Twój Email",
+                    contactLabel: "Jakiego talentu potrzebujesz?",
+                    contactPlaceholder: "np. 'Solidny brygadzista budowlany na długi projekt'",
+                    contactGeminiButton: "✨ Pomóż mi Zdefiniować Rolę",
+                    contactSubmitButton: "Zarezerwuj Konsultację",
+                    footerText: "&copy; 2025 Matt Majak Recruitment. Wszelkie prawa zastrzeżone.",
+                    errorRole: "Proszę najpierw opisać rolę, której potrzebujesz.",
+                    errorValues: "Proszę podać przynajmniej jedną wartość firmową.",
+                    errorAPI: "Niestety, nie mogłem przetworzyć tego żądania. Spróbuj ponownie lub wyślij bez zmian."
+                }
+            };
+
+            // --- 3. LOGIKA PRZEŁĄCZANIA JĘZYKA ---
+            function switchLanguage(lang) {
+                if (!content[lang]) return;
+                currentLang = lang;
+                document.documentElement.lang = lang; // Ustaw atrybut lang na <html>
+
+                // Przełączanie tekstu
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.dataset.key;
+                    if (content[lang][key]) {
+                        element.innerHTML = content[lang][key];
+                    }
+                });
+
+                // Przełączanie placeholderów
+                document.querySelectorAll('[data-key-placeholder]').forEach(element => {
+                    const key = element.dataset.keyPlaceholder;
+                    if (content[lang][key]) {
+                        element.placeholder = content[lang][key];
+                    }
+                });
+
+                // Aktualizacja aktywnego przycisku
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+
+                // Zapisz wybór
+                localStorage.setItem('mattMajakLang', lang);
+            }
+
+            // --- 4. LOGIKA GEMINI API ---
+            const apiKey = ""; // Klucz API jest dostarczany przez środowisko
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            // Prompty dla AI pozostają po angielsku, aby zapewnić najlepszą jakość odpowiedzi
+            const systemPrompt = `You are an expert B2B recruitment consultant specializing in the Dutch technical and construction market.
+A client will provide a simple job title or a brief description of a role they need to fill.
+Your task is to expand this brief into a concise, 3-4 bullet point job requirement description.
+Focus on key responsibilities, essential skills, and the "mentality" (e.g., reliability, motivation, problem-solving) that Matt Majak's service promises to vet for.
+The language must be professional, direct, and in English. Do not add any conversational intro or outro, just provide the bullet points.
+Example input: 'I need a good welder'
+Example output:
+- Certified MIG/TIG welder with experience in structural steel.
+- Responsible for reading technical drawings and performing quality checks on all work.
+- Must demonstrate high reliability, attention to detail, and a strong commitment to safety protocols.
+- Proven ability to work independently and solve problems on-site.`;
+
+            const systemPrompt_Questions = `You are an expert headhunter and behavioral psychologist, specializing in DISC and NLP. A client will provide you with 1-3 company values.
+Your task is to generate 3-5 powerful, open-ended, behavioral interview questions that directly screen for those values.
+Do not ask simple 'what is' questions. Focus on 'Tell me about a time when...' or 'Describe a situation where...' formats.
+The questions should be tough but professional. Output only the numbered list of questions, without any intro or outro.
+Example Input: 'Reliability, Teamwork'
+Example Output:
+1. Tell me about a time when a project's success depended heavily on your personal reliability. How did you ensure you delivered?
+2. Describe a difficult situation you encountered with a coworker. What was the conflict, and what steps did you take to resolve it as part of the team?
+3. Give me an example of a time you had to go above and beyond your stated responsibilities to support a team member.`;
+
+            // Funkcja do wywołania API z logiką ponawiania
+            async function fetchWithRetry(url, options, retries = 3, delay = 1000) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (retries > 0) {
+                        await new Promise(res => setTimeout(res, delay));
+                        return fetchWithRetry(url, options, retries - 1, delay * 2);
+                    } else {
+                        console.error('API call failed after retries:', error);
+                        throw error;
+                    }
+                }
+            }
+
+            // Listener dla formularza kontaktowego
+            enhanceBtn.addEventListener('click', async () => {
+                const userQuery = messageTextarea.value;
+
+                if (!userQuery.trim()) {
+                    geminiError.textContent = content[currentLang].errorRole; // Tłumaczony błąd
+                    geminiError.style.display = 'block';
+                    return;
+                }
+                geminiError.style.display = 'none';
+                loadingIndicator.style.display = 'block';
+                enhanceBtn.disabled = true;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    tools: [{ "google_search": {} }], 
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                };
+
+                try {
+                    const result = await fetchWithRetry(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const candidate = result.candidates?.[0];
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        messageTextarea.value = candidate.content.parts[0].text;
+                    } else { throw new Error('No valid content'); }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    geminiError.textContent = content[currentLang].errorAPI; // Tłumaczony błąd
+                    geminiError.style.display = 'block';
+                } finally {
+                    loadingIndicator.style.display = 'none';
+                    enhanceBtn.disabled = false;
+                }
+            });
+
+            // Listener dla Cultural Fit Demo
+            questionsBtn.addEventListener('click', async () => {
+                const userQuery = valuesTextarea.value;
+
+                if (!userQuery.trim()) {
+                    questionsError.textContent = content[currentLang].errorValues; // Tłumaczony błąd
+                    questionsError.style.display = 'block';
+                    return;
+                }
+                questionsError.style.display = 'none';
+                questionsLoading.style.display = 'block';
+                questionsResult.style.display = 'none';
+                questionsBtn.disabled = true;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt_Questions }] },
+                };
+
+                try {
+                    const result = await fetchWithRetry(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const candidate = result.candidates?.[0];
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        questionsOutput.textContent = candidate.content.parts[0].text;
+                 
+                        questionsResult.style.display = 'block';
+                    } else { throw new Error('No valid content'); }
+                } catch (error) {
+                    console.error('Error calling Gemini API (Questions):', error);
+                    questionsError.textContent = content[currentLang].errorAPI; // Tłumaczony błąd
+                    questionsError.style.display = 'block';
+                } finally {
+                    questionsLoading.style.display = 'none';
+                    questionsBtn.disabled = false;
+                }
+            });
+
+            // --- 5. INICJALIZACJA ---
+            // Dodaj listenery do przycisków językowych
+            langButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    switchLanguage(button.dataset.lang);
+                });
+            });
+
+            // Sprawdź zapisany język lub ustaw domyślny
+            const savedLang = localStorage.getItem('mattMajakLang');
+            const browserLang = navigator.language.split('-')[0]; // 'nl', 'pl', 'en'
+            
+            if (savedLang && content[savedLang]) {
+                switchLanguage(savedLang);
+            } else if (content[browserLang]) {
+                switchLanguage(browserLang);
+            } else {
+                switchLanguage('en'); // Domyślny
+            }
+        });
+    </script>
 
 </body>
 </html>
