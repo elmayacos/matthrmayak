@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matt Majak - B2B Recruitment Partner</title>
+    
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Global Styles --- */
+        :root {
+            --primary-blue: #0a4b8e; /* Ciemny, korporacyjny niebieski */
+            --light-grey-bg: #f4f7f6; /* Bardzo jasne tło dla sekcji */
+            --dark-text: #2c3e50;      /* Ciemny tekst dla czytelności */
+            --body-text: #555;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--white);
+        }
+
+        /* --- Utility & Layout --- */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-blue);
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--body-text);
+            margin-bottom: 15px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 15px 35px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(10, 75, 142, 0.3);
+        }
+
+        /* --- Header --- */
+        .header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            background-color: var(--white);
+            padding-top: 100px;
+            padding-bottom: 100px;
+            text-align: center;
+        }
+
+        #hero .subheadline {
+            font-size: 1.3rem;
+            color: var(--dark-text);
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        /* --- Trust Bar Section --- */
+        #trust {
+            padding: 25px 0;
+            background-color: var(--light-grey-bg);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #trust .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #trust span {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #999;
+            margin: 10px 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Problem Section --- */
+        #problem {
+            background-color: var(--white);
+        }
+        
+        #problem .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .problem-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+        
+        .problem-card h3 {
+            color: #d9534f; /* Czerwony ostrzegawczy */
+        }
+
+        /* --- Difference Section --- */
+        #difference {
+            background-color: var(--light-grey-bg);
+        }
+
+        #difference .difference-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .difference-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .difference-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        /* --- Process Section --- */
+        #process {
+            background-color: var(--white);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            position: relative;
+        }
+        
+        /* Linia łącząca (opcjonalna, ale dodaje "procesowego" wyglądu) */
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 35px; /* Połowa wysokości ikony */
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 0;
+        }
+
+        .step-card {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 20px auto;
+            border: 4px solid var(--light-grey-bg);
+        }
+        
+        .step-card h3 {
+            color: var(--dark-text);
+        }
+
+        /* --- Contact Section --- */
+        #contact {
+            background-color: var(--light-grey-bg);
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        #contact h2, #contact p {
+            text-align: center;
+        }
+        
+        #contact p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box; /* Kluczowe dla 100% width */
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-group .cta-button {
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            padding: 30px 0;
+            background-color: var(--dark-text);
+            color: var(--light-grey-bg);
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .footer a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 900px) {
+            .problem-grid,
+            .difference-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps::before {
+                display: none; /* Ukryj linię na mobilnych */
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            #hero {
+                padding: 60px 0;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .header .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .contact-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">Matt Majak</a>
+            <nav>
+                <a href="#contact" class="cta-button">Find Me a Candidate</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. HERO SECTION -->
+        <section id="hero">
+            <div class="container">
+                <h1>Stop the Revolving Door. <br>I Deliver Vetted Professionals, Not Just CVs.</h1>
+                <p class="subheadline">Connecting Dutch Business with Top-Tier Polish Talent using Psychological Profiling.</p>
+                <a href="#contact" class="cta-button">Find Me a Candidate</a>
+            </div>
+        </section>
+
+        <!-- 5. EXPERIENCE BAR (TRUST) - Umieszczone wysoko dla budowania zaufania -->
+        <section id="trust">
+            <div class="container">
+                <span>MANAGEMENT EXPERIENCE AT</span>
+                <span>T-Mobile</span>
+                <span>Polenergia</span>
+                <span>Liberty Poland</span>
+            </div>
+        </section>
+
+        <!-- 2. THE PROBLEM (PAIN POINTS) -->
+        <section id="problem">
+            <div class="container">
+                <h2>Tired of This?</h2>
+                <div class="problem-grid">
+                    <div class="problem-card">
+                        <h3>The "Ghost" Worker</h3>
+                        <p>You invest time and money into a new hire, only for them to disappear after the first week or paycheck. Your project is delayed, and you're back to square one.</p>
+                    </div>
+                    <div class="problem-card">
+                        <h3>Motivation Mismatch</h3>
+                        <p>They look good on paper, but their on-site motivation is low. Communication is poor, they do the bare minimum, and they drag down the morale of your core team.</p>
+                    </div>
+                    <div class="problem-card">
+                        <h3>Agency CV Spam</h3>
+                        <p>Most agencies just flood your inbox with unvetted CVs, making *you* do the screening. You waste hours on interviews with candidates who were never the right fit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. THE MATT MAJAK DIFFERENCE (WHY ME?) -->
+        <section id="difference">
+            <div class="container">
+                <h2>The Matt Majak Difference</h2>
+                <div class="difference-grid">
+                    <div class="difference-card">
+                        <!-- Użyjmy prostych emoji jako ikon -->
+                        <div class="icon">📡</div> 
+                        <h3>The 100-Person Stress Test</h3>
+                        <p>Having managed 100+ person teams in Poland, I’ve seen every excuse and trick. I have a manager's "radar" for spotting unreliable candidates before they ever get to you.</p>
+                    </div>
+                    <div class="difference-card">
+                        <div class="icon">🧠</div>
+                        <h3>NLP & DISC Screening</h3>
+                        <p>Skills are only half the story. I use DISC/Persolog profiling and NLP techniques to verify mentality, motivation, and reliability. I check if they fit *your* company culture, not just the job.</p>
+                    </div>
+                    <div class="difference-card">
+                        <div class="icon">🇳🇱</div>
+                        <h3>Local Dutch Presence</h3>
+                        <p>I'm not a remote agency. I am in the Netherlands, available to meet for coffee, understand your exact needs, and build a long-term partnership based on results.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. HOW IT WORKS (PROCESS) -->
+        <section id="process">
+            <div class="container">
+                <h2>My 3-Step Vetting Process</h2>
+                <div class="process-steps">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Consultation & Briefing</h3>
+                        <p>We meet (in-person or online) to define the exact profile you need—not just the skills, but the non-negotiable mentality and work ethic.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Deep Screening</h3>
+                        <p>I source, interview, and conduct psychometric checks. I filter out the "CV-perfect" candidates from the "job-perfect" professionals.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>The Perfect Match</h3>
+                        <p>You don't get a stack of CVs. You get a shortlist of 2-3 fully vetted candidates who are ready to work and add value from day one.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CONTACT / FOOTER -->
+        <section id="contact">
+            <div class="container">
+                <h2>Ready to Hire with Confidence?</h2>
+                <p>Stop sorting. Start building.</p>
+                
+                <div class="contact-form">
+                    <form action="https://api.web3forms.com/submit" method="POST">
+                        <!-- Zastąp swoim kluczem web3forms lub innym backendem -->
+                        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE"> 
+                        
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company Name</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">What kind of talent do you need?</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="cta-button">Book a Consultation</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Matt Majak Recruitment. All rights reserved.</p>
+            <p><a href="mailto:contact@mattmajak.com">contact@mattmajak.com</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>
